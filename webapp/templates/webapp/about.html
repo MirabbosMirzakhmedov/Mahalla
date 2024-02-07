@@ -1,0 +1,29 @@
+{% extends 'webapp/layout.html' %}
+
+{% block body%}
+<div class="features">
+    <div class="error-message{% if error %} active{% endif %}">
+        <span>{{ error }}</span>
+    </div>
+
+    <h1>Post страница</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}<br>
+        {{ form.title }}<br>
+        {{ form.full_text }}<br>
+        {{ image.as_p }}<br>
+        <input  type="file" id="id_img" name="img" style="display: none;" onchange="updateFileName()" />
+        <label class="btn" for="id_img" style="cursor: pointer;">Choose File</label>
+        <p id="file-name">No file chosen</p>
+        <button class="btn" type="submit">Submit</button>
+    </form>
+</div>
+
+<script>
+    function updateFileName() {
+        var input = document.getElementById('id_img');
+        var output = document.getElementById('file-name');
+        output.textContent = input.files[0].name;
+    }
+</script>
+{% endblock%}

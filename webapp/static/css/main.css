@@ -1,0 +1,25 @@
+body {
+    background: #2c2c2c;
+}
+
+form {
+    margin-left: 32%;
+    width: 500px;
+    margin-top: 50px;
+    border: solid black 1px;
+}
+
+.btn {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+/* Hide the input field */
+.btn input[type="file"] {
+    display: none;
+}
