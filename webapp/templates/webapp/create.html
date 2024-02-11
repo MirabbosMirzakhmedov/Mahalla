@@ -2,18 +2,16 @@
 {% block title%}Yangilik joylash{% endblock%}
 
 {% block body%}
-<div class="features">
-    <div class="error-message{% if error %} active{% endif %}">
-        <span>{{ error }}</span>
+<br><br>
+<form class="form-signin w-50 m-auto" method="post" enctype="multipart/form-data">
+<h4 style="text-align: center">Yangilik joylash</h4>
+    {% csrf_token %}
+    {{ form.media }}
+    {{ form.as_p }}
+
+    <div style="text-align: right">
+        <input type="submit" value="Yangilik joylash" class="btn btn-primary">
     </div>
-
-    <h1>Post страница</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.media }}
-        {{ form.as_p }}
-
-        <input type="submit" value="Submit" class="btn">
-    </form>
-</div>
+</form>
+<br><br>
 {% endblock%}

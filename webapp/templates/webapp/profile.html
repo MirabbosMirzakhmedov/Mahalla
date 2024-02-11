@@ -7,24 +7,67 @@
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {% if profile_view.profile_pic %}
-                <img class="profile_pic" src="{{ profile_view.profile_pic.url }}" alt="{{ profile_view.first_name }}">
+                <img style="width: 200px; height: 200px" class="img-thumbnail" src="{{ profile_view.profile_pic.url }}" alt="{{ profile_view.first_name }}">
             {% endif %}
             {{ form.as_p }}
             <button type="submit">Save Changes</button>
         </form>
     {% else %}
+        <div class="col-lg-8 mx-auto p-4 py-md-5">
+            <main>
+                <div class="row">
+                    <div class="col-md-8">
+                        <h1 class="text-body-emphasis">{{ profile_view.first_name }} {{ profile_view.last_name }}</h1>
+                        <h4 class="text-body-emphasis">{{ profile_view.username }}</h4>
+                        {% if profile_view.bio %}
+                            <p class="fs-7 col-md-8">{{ profile_view.bio }}</p>
+                        {% else %}
+                            <p class="fs-7 col-md-8">Bio yo'q</p>
+                        {% endif %}
 
-        {% if profile_view.profile_pic %}
-            <img class="profile_pic" src="{{ profile_view.profile_pic.url }}" alt="{{ profile_view.first_name }}">
-        {% endif %}
-        <p><b>Username:</b> {{ profile_view.username }}</p>
-        <p><b>Ism:</b> {{ profile_view.first_name }}</p>
-        <p><b>Familiya:</b> {{ profile_view.last_name }}</p>
-        <p><b>Email:</b> {{ profile_view.email }}</p>
-        <p><b>Bio:</b> {{ profile_view.bio }}</p>
+                        <div class="mb-5">
+                            <p>{{ profile_view.email }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        {% if profile_view.profile_pic %}
+                            <img style="width: 200px; height: 200px" class="img-thumbnail" src="{{ profile_view.profile_pic.url }}" alt="{{ profile_view.first_name }}">
+                        {% else %}
+                            <p class="fs-7 col-md-8">Rasm yo'q</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </main>
+        </div>
     {% endif %}
-{% else %}
-    Anonymous user visited
 {% endif %}
+
+
+
+
+{#{% if user.is_authenticated %}#}
+{#    {% if profile_view == request.user %}#}
+{#        <form method="post" enctype="multipart/form-data">#}
+{#            {% csrf_token %}#}
+{#            {% if profile_view.profile_pic %}#}
+{#                <img class="profile_pic" src="{{ profile_view.profile_pic.url }}" alt="{{ profile_view.first_name }}">#}
+{#            {% endif %}#}
+{#            {{ form.as_p }}#}
+{#            <button type="submit">Save Changes</button>#}
+{#        </form>#}
+{#    {% else %}#}
+{##}
+{#        {% if profile_view.profile_pic %}#}
+{#            <img class="profile_pic" src="{{ profile_view.profile_pic.url }}" alt="{{ profile_view.first_name }}">#}
+{#        {% endif %}#}
+{#        <p><b>Username:</b> {{ profile_view.username }}</p>#}
+{#        <p><b>Ism:</b> {{ profile_view.first_name }}</p>#}
+{#        <p><b>Familiya:</b> {{ profile_view.last_name }}</p>#}
+{#        <p><b>Email:</b> {{ profile_view.email }}</p>#}
+{#        <p><b>Bio:</b> {{ profile_view.bio }}</p>#}
+{#    {% endif %}#}
+{#{% else %}#}
+{#    Anonymous user visited#}
+{#{% endif %}#}
 
 {% endblock%}

@@ -1,38 +1,31 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="../../static/css/login.css">
-    <title>Profilga kirish</title>
-</head>
-    <body>
-    <div class="wrapper">
-        <div class="logo">
-            <img src="../../../media/posts/logo.webp" alt="">
-        </div>
-        <div class="text-center mt-4 name">
-            Ahilobod Kirish
-        </div>
-        <form class="p-3 mt-3" method="POST" action="{% url 'login'%}">
-            {% csrf_token %}
-            <div class="form-field d-flex align-items-center">
-                <span class="far fa-user"></span>
-                <input type="text" name="username" id="userName" placeholder="Username">
-            </div>
-            <br>
-            <div class="form-field d-flex align-items-center">
-                <span class="fas fa-key"></span>
-                <input type="password" name="password" id="pwd" placeholder="Password">
-            </div>
-            <button type="submit" class="btn mt-3">Login</button>
-        </form>
-        <div class="text-center fs-6" style="padding-top: 10px; text-align: center">
-            <small>Profiliz yo'qmi? <a href="{% url 'register' %}">Profil ochish</a></small>
-        </div>
-    </div>
-</body>
-</html>
+{% extends 'webapp/layout.html' %}
+{% block title %}{{ post.title }}{% endblock %}
 
+{% block body %}
+
+    <br><br>
+    <form class="form-signin w-50 m-auto" method="POST"
+          action="{% url 'login' %}">
+        <h4 style="text-align: center">Profilga kirish</h4>
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="exampleInput">Foydalanuvchi nomi</label>
+            <input class="form-control"  type="text" name="username" id="userName"
+                   placeholder="Foydalanuvchi nomi">
+        </div>
+        <div class="form-group">
+            <label for="exampleInput">Parol</label>
+            <input class="form-control" type="password" name="password" id="pwd"
+                   placeholder="Parol">
+        </div>
+
+        <br>
+        <div style="text-align: right">
+            <p>Profiliz yo'qmi? <a href="{% url 'register' %}">Profil ochish</a>
+            </p>
+
+            <button type="submit" class="btn btn-primary">Kirish</button>
+        </div>
+    </form>
+    <br><br>
+{% endblock %}

@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView, DetailView, UpdateView, \
     DeleteView
+from django.views import View
 from django.urls import reverse_lazy
 from webapp.forms import PostForm, CommentForm, ProfileForm
 from django.contrib.auth import authenticate, login, logout
@@ -24,28 +25,53 @@ def about(request):
     return render(request, 'webapp/about.html', data)
 
 
-def create_post(request):
-    error = ''
-    if request.method == 'POST':
+# def create_post(request):
+#     error = ''
+#     if request.method == 'POST':
+#         form = PostForm(request.POST, request.FILES)
+#
+#         if form.is_valid():
+#             post = form.save(commit=False)
+#             post.user_id = request.user
+#             post.save()
+#
+#             return redirect('home')
+#         else:
+#             error = "Maqolani to'liq to'ldiring"
+#     else:
+#         form = PostForm()
+#
+#     data = {
+#         'form': form,
+#         'error': error
+#     }
+#
+#     return render(request, 'webapp/create.html', data)
+
+class CreatePostView(LoginRequiredMixin, View):
+    login_url = '/login/'  # Specify the URL to redirect to if the user is not logged in
+
+    def get(self, request):
+        error = ''
+        form = PostForm()
+        data = {'form': form, 'error': error}
+        return render(request, 'webapp/create.html', data)
+
+    def post(self, request):
+        error = ''
         form = PostForm(request.POST, request.FILES)
 
         if form.is_valid():
             post = form.save(commit=False)
             post.user_id = request.user
             post.save()
-
             return redirect('home')
         else:
             error = "Maqolani to'liq to'ldiring"
-    else:
-        form = PostForm()
 
-    data = {
-        'form': form,
-        'error': error
-    }
+        data = {'form': form, 'error': error}
+        return render(request, 'webapp/create.html', data)
 
-    return render(request, 'webapp/create.html', data)
 
 def login_user(request):
     if request.method == 'POST':
