@@ -1,29 +1,11 @@
 {% extends 'webapp/layout.html' %}
 
+{% block title%}Biz haqimizda{% endblock%}
+
 {% block body%}
-<div class="features">
-    <div class="error-message{% if error %} active{% endif %}">
-        <span>{{ error }}</span>
-    </div>
-
-    <h1>Post страница</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}<br>
-        {{ form.title }}<br>
-        {{ form.full_text }}<br>
-        {{ image.as_p }}<br>
-        <input  type="file" id="id_img" name="img" style="display: none;" onchange="updateFileName()" />
-        <label class="btn" for="id_img" style="cursor: pointer;">Choose File</label>
-        <p id="file-name">No file chosen</p>
-        <button class="btn" type="submit">Submit</button>
-    </form>
-</div>
-
-<script>
-    function updateFileName() {
-        var input = document.getElementById('id_img');
-        var output = document.getElementById('file-name');
-        output.textContent = input.files[0].name;
-    }
-</script>
+    <iframe
+        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1062.5375123656715!2d69.30086216364134!3d41.36796985923288!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2s!4v1707668726477!5m2!1sen!2s"
+        width="600" height="450" style="border:0;" allowfullscreen=""
+        loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
 {% endblock%}

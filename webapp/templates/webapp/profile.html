@@ -1,0 +1,30 @@
+{% extends 'webapp/layout.html' %}
+{% block title%}Profil haqida{% endblock%}
+{% block body%}
+
+{% if user.is_authenticated %}
+    {% if profile_view == request.user %}
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if profile_view.profile_pic %}
+                <img class="profile_pic" src="{{ profile_view.profile_pic.url }}" alt="{{ profile_view.first_name }}">
+            {% endif %}
+            {{ form.as_p }}
+            <button type="submit">Save Changes</button>
+        </form>
+    {% else %}
+
+        {% if profile_view.profile_pic %}
+            <img class="profile_pic" src="{{ profile_view.profile_pic.url }}" alt="{{ profile_view.first_name }}">
+        {% endif %}
+        <p><b>Username:</b> {{ profile_view.username }}</p>
+        <p><b>Ism:</b> {{ profile_view.first_name }}</p>
+        <p><b>Familiya:</b> {{ profile_view.last_name }}</p>
+        <p><b>Email:</b> {{ profile_view.email }}</p>
+        <p><b>Bio:</b> {{ profile_view.bio }}</p>
+    {% endif %}
+{% else %}
+    Anonymous user visited
+{% endif %}
+
+{% endblock%}

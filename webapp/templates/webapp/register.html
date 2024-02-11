@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="../../static/css/login.css">
+    <title>Profil yaratish</title>
+</head>
+    <body>
+    <div class="wrapper">
+        <div class="logo">
+            <img src="../../../media/posts/logo.webp" alt="">
+        </div>
+        <div class="text-center mt-4 name">
+            Ahilobod Profil Ochish
+        </div>
+        <form class="p-3 mt-3" method="POST" action="{% url 'register'%}">
+            {% csrf_token %}
+            <div class="auth_container">
+                <div class="username">{{ form.username }}</div>
+                <small id="info_text">{{ form.username.help_text | safe }}</small><br><br>
+                <div class="fullname">{{ form.first_name }} {{ form.last_name }}</div><br>
+                <div class="password">{{ form.password1 }} {{ form.password2 }}</div>
+                <small id="info_text">{{ form.password1.help_text | safe }}</small>
+            </div>
+            <button type="submit" class="btn mt-3">Profil ochish</button>
+        </form>
+        <div class="text-center fs-6" style="padding-top: 10px; text-align: center">
+            <small>Profiliz bormi? <a href="{% url 'login' %}">Profilga o'tish</a></small>
+        </div>
+    </div>
+</body>
+</html>
+

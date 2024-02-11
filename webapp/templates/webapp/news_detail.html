@@ -1,0 +1,61 @@
+{% extends 'webapp/layout.html' %}
+{% block title%}{{ post.title }}{% endblock%}
+
+{% block body %}
+    <div class="post_detail">
+        <h1>{{ post.title }}</h1>
+        <small>{{ post.created_at }} | <a href="{% url 'profile' post.user_id.user_id %}">{{ post.user_id.first_name }} {{ post.user_id.last_name }}</a></small>
+        <div>
+            {% if user.user_id == post.user_id_id %}
+                <div class="btn-action">
+                    <a href="{% url 'post-delete' post.post_id %}">Удалить</a>
+                    <a href="{% url 'post-update' post.post_id %}">Редактировать</a>
+                </div>
+
+            {% endif %}
+        </div>
+        <p class="full_text">{{ post.full_text|safe }}</p>
+        {% if post.image %}
+            <img src="{{ post.image.url }}">
+        {% endif %}
+
+        <br><br>
+        <h2>Comments...</h2>
+        <hr>
+        <br>
+        {% if user.is_authenticated %}
+            {% if post.comments.all %}
+                {% for comment in post.comments.all %}
+                    <b><a href="{% url 'profile' comment.user.user_id %}">{{ comment.user.first_name }} {{ comment.user.last_name }}</a></b> | <small>{{ comment.created_at }}</small><br>
+                    {{ comment.comment_text }}
+                    <br><br>
+
+                {% endfor %}
+        {% endif %}
+            <form method="post" action="{% url 'add-comment' post.post_id %}">
+            {% csrf_token %}
+            <div class="form-group">
+              <p>Commenting as <strong>{{ user.first_name }} {{ user.last_name }}:</strong></p>
+              <textarea name="comment_text" class="form-control" rows="3"></textarea>
+              <button type="submit" class="btn btn-primary">Add comment</button>
+            </div>
+            </form>
+        {% else %}
+            <p><a href="{% url 'login' %}">Login</a> to write a comment<a href="#"></a></p>
+            <hr>
+            {% for comment in post.comments.all %}
+                <strong>
+                    {{ comment.user.first_name }} {{ comment.user.last_name }}<br>
+                    {{ comment.created_at }}
+                </strong>
+                <br>
+                {{ comment.comment_text }}
+                <br><br>
+                <hr>
+            {% endfor %}
+        {% endif %}
+
+
+
+    </div>
+{% endblock%}

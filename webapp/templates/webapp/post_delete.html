@@ -1,0 +1,16 @@
+{% extends 'webapp/layout.html' %}
+
+{% block title%}Post o'chirish{% endblock%}
+
+{% block body%}
+    <div class="features">
+        <h1>{{ post.title }}</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            <button class="btn btn-danger" type="submit">Удалить</button>
+        </form>
+    </div>
+
+
+{% endblock%}
