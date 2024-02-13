@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.contrib.auth.models import Group as AuthGroup, Permission as AuthPermission
 from django.urls import reverse
 from ckeditor.fields import RichTextField
+
 class User(AbstractUser):
     user_id = models.AutoField(primary_key=True)
     phone_number = models.CharField(max_length=20)
@@ -23,7 +24,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     updated_at = models.DateTimeField(auto_now=True)
-    image = models.ImageField(null=True, blank=True, upload_to='posts/')
+    image = models.ImageField(upload_to='posts/', default='../../media/posts/default.webp')
 
     def get_absolute_url(self):
         return reverse('news-detail', args=[str(self.post_id)])

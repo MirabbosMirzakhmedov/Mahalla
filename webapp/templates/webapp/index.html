@@ -5,41 +5,37 @@
     {# Latest news#}
     <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary">
         <div class="col-lg-6 px-0">
-            <h1 class="display-4 fst-italic">Title of a longer featured blog
-                post</h1>
-            <p class="lead my-3">Multiple lines of text that form the lede,
-                informing new readers quickly and efficiently about what’s most
-                interesting in this post’s contents.</p>
-            <p class="lead mb-0"><a href="#" class="text-body-emphasis fw-bold">Continue
-                reading...</a></p>
+            <h1 class="display-4 fst-italic">{{ latest_news.title|truncatewords:10|striptags|safe }}</h1>
+            <p class="lead my-3">{{ latest_news.full_text|truncatewords:30|striptags|safe }}</p>
+            <p class="lead mb-0"><a href="{% url 'news-detail' latest_news.post_id %}" class="text-body-emphasis fw-bold">O'qishni davom ettiring</a></p>
         </div>
     </div>
 
     <div class="row mb-2">
-
-        {# Left side #}
+        {# Each card #}
         <div class="col-md-8">
-            {% for post in posts %}
+            {% for post in other_posts  %}
                 <div
                     class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                     <div class="col p-4 d-flex flex-column position-static">
-                        <h4 class="mb-0">{{ post.title }}</h4>
+                        <h4 class="mb-0">{{ post.title|truncatewords:5|striptags|safe }}</h4>
                         <small
-                            class="mb-1 text-body-secondary">{{ post.created_at }}
+                            class="mb-1 text-body-secondary">{{ post.created_at|date:"j F Y, G:i" }}
                             |
                             <a href="{% url 'profile' post.user_id_id %}">{{ post.user_id.first_name }} {{ post.user_id.last_name }}</a></small>
-                        <p class="card-text mb-auto">{{ post.full_text|truncatechars:150|striptags|safe }}</p>
-                        <a href="{% url 'news-detail' post.post_id %}"
-                           class="icon-link gap-1 icon-link-hover stretched-link">
-                            O'qishni davom ettiring...
-                        </a>
+                        <p class="card-text mb-auto">{{ post.full_text|truncatewords:30|striptags|safe }}</p>
+
+                        <button class="post-button">O'qishni davom ettiring
+                            <a href="{% url 'news-detail' post.post_id %}"
+                               class="icon-link gap-1 icon-link-hover stretched-link">
+                            </a>
+                        </button>
                     </div>
                     <div class="col-auto d-none d-lg-block">
                         {% if post.image %}
-                            <img class="bd-placeholder-img" width="200"
-                                 height="250"
-                                 src="{{ post.image.url }}"
-                                 alt="{{ post.title }}">
+                            <div class="image-container" style="width: 200px; height: 250px; overflow: hidden;">
+                                <img class="bd-placeholder-img" style="width: 100%; height: 100%; object-fit: cover;" src="{{ post.image.url }}" alt="{{ post.title }}">
+                            </div>
                         {% endif %}
                     </div>
                 </div>
@@ -49,112 +45,36 @@
         {#    Right side   #}
         <div class="col-md-4">
             <div class="position-sticky" style="top: 2rem;">
-                <div class="p-4 mb-3 bg-body-tertiary rounded">
-                    <h4 class="fst-italic">About</h4>
-                    <p class="mb-0">Customize this section to tell your visitors
-                        a little bit about your publication, writers, content,
-                        or something else entirely. Totally up to you.</p>
-                </div>
-
+                {% if user.is_authenticated %}
+                    <div class="p-4 mb-3 bg-body-tertiary rounded">
+                        <h4 class="fst-italic">Xush kelibsiz, {{ user.first_name }}!</h4>
+                        <p class="mb-0">Yurtimizda, va mahallamizda bo'layotgan so'nggi habarlarni qo'yvorib yubormang.
+                        O'qing, izohlar yozing va biz haqimizda boshqalarga ayting.</p>
+                    </div>
+                {% else %}
+                    <div class="p-4 mb-3 bg-body-tertiary rounded">
+                        <h4 class="fst-italic">Salom aziz mehmon!</h4>
+                        <p class="mb-0">Yurtimizda, va mahallamizda bo'layotgan so'nggi habarlarni qo'yvorib yubormang.
+                        Profil yarating va o'zingiz ham boshqalar bilan yangilik ulasha olasiz.</p>
+                    </div>
+                {% endif %}
                 <div>
-                    <h4 class="fst-italic">Recent posts</h4>
+                    <h4 class="fst-italic">Oxirgi izohlar</h4>
                     <ul class="list-unstyled">
+                        {% for comment in last_five %}
                         <li>
                             <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
-                               href="#">
-                                <svg class="bd-placeholder-img" width="100%"
-                                     height="96"
-                                     xmlns="http://www.w3.org/2000/svg"
-                                     aria-hidden="true"
-                                     preserveAspectRatio="xMidYMid slice"
-                                     focusable="false">
-                                    <rect width="100%" height="100%"
-                                          fill="#777"/>
-                                </svg>
-                                <div class="col-lg-8">
-                                    <h6 class="mb-0">Example blog post
-                                        title</h6>
-                                    <small class="text-body-secondary">January
-                                        15, 2023</small>
+                               href="{% url 'news-detail' comment.post.post_id %}">
+                                <div class="col-lg-12">
+                                    <h6 class="mb-0">{{ comment.comment_text }}</h6>
+                                    <small class="text-body-secondary">{{ comment.post.title }} - {{ comment.user.first_name }} {{ comment.user.last_name }}</small>
                                 </div>
                             </a>
                         </li>
-                        <li>
-                            <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
-                               href="#">
-                                <svg class="bd-placeholder-img" width="100%"
-                                     height="96"
-                                     xmlns="http://www.w3.org/2000/svg"
-                                     aria-hidden="true"
-                                     preserveAspectRatio="xMidYMid slice"
-                                     focusable="false">
-                                    <rect width="100%" height="100%"
-                                          fill="#777"/>
-                                </svg>
-                                <div class="col-lg-8">
-                                    <h6 class="mb-0">This is another blog post
-                                        title</h6>
-                                    <small class="text-body-secondary">January
-                                        14, 2023</small>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
-                               href="#">
-                                <svg class="bd-placeholder-img" width="100%"
-                                     height="96"
-                                     xmlns="http://www.w3.org/2000/svg"
-                                     aria-hidden="true"
-                                     preserveAspectRatio="xMidYMid slice"
-                                     focusable="false">
-                                    <rect width="100%" height="100%"
-                                          fill="#777"/>
-                                </svg>
-                                <div class="col-lg-8">
-                                    <h6 class="mb-0">Longer blog post title:
-                                        This one has multiple lines!</h6>
-                                    <small class="text-body-secondary">January
-                                        13, 2023</small>
-                                </div>
-                            </a>
-                        </li>
+                        {% endfor %}
                     </ul>
-                </div>
-
-                <div class="p-4">
-                    <h4 class="fst-italic">Archives</h4>
-                    <ol class="list-unstyled mb-0">
-                        <li><a href="#">March 2021</a></li>
-                        <li><a href="#">February 2021</a></li>
-                        <li><a href="#">January 2021</a></li>
-                        <li><a href="#">December 2020</a></li>
-                        <li><a href="#">November 2020</a></li>
-                        <li><a href="#">October 2020</a></li>
-                        <li><a href="#">September 2020</a></li>
-                        <li><a href="#">August 2020</a></li>
-                        <li><a href="#">July 2020</a></li>
-                        <li><a href="#">June 2020</a></li>
-                        <li><a href="#">May 2020</a></li>
-                        <li><a href="#">April 2020</a></li>
-                    </ol>
-                </div>
-
-                <div class="p-4">
-                    <h4 class="fst-italic">Elsewhere</h4>
-                    <ol class="list-unstyled">
-                        <li><a href="#">GitHub</a></li>
-                        <li><a href="#">Twitter</a></li>
-                        <li><a href="#">Facebook</a></li>
-                    </ol>
                 </div>
             </div>
         </div>
-
     </div>
-
-
-
-
-
 {% endblock %}

@@ -4,14 +4,17 @@
 
 {% if user.is_authenticated %}
     {% if profile_view == request.user %}
-        <form method="post" enctype="multipart/form-data">
+        <form class="form-signin w-50 m-auto" method="post" enctype="multipart/form-data" action="{% url 'profile' user.user_id %}">
             {% csrf_token %}
             {% if profile_view.profile_pic %}
                 <img style="width: 200px; height: 200px" class="img-thumbnail" src="{{ profile_view.profile_pic.url }}" alt="{{ profile_view.first_name }}">
             {% endif %}
             {{ form.as_p }}
-            <button type="submit">Save Changes</button>
+            <div style="text-align: right">
+                <button class="btn btn-primary" type="submit">Saqlash</button>
+            </div>
         </form>
+
     {% else %}
         <div class="col-lg-8 mx-auto p-4 py-md-5">
             <main>
@@ -37,37 +40,26 @@
                         {% endif %}
                     </div>
                 </div>
+                <hr>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4>Yozgan yangiliklari:</h4>
+                        {% for post in profile_view.posts.all %}
+                            ─ <a href="{% url 'news-detail' post.post_id %}">{{ post.title|truncatewords:4|striptags|safe }}</a><br>
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-md-6">
+                        <h4>Yozgan izohlari:</h4>
+                            {% for comment in comments %}
+                                <div>
+                                    ─ <a href="{% url 'news-detail' comment.post.post_id %}">{{ comment.comment_text|truncatewords:4|striptags|safe }}</a>
+                                </div>
+                            {% endfor %}
+                    </div>
+                </div>
             </main>
         </div>
     {% endif %}
 {% endif %}
-
-
-
-
-{#{% if user.is_authenticated %}#}
-{#    {% if profile_view == request.user %}#}
-{#        <form method="post" enctype="multipart/form-data">#}
-{#            {% csrf_token %}#}
-{#            {% if profile_view.profile_pic %}#}
-{#                <img class="profile_pic" src="{{ profile_view.profile_pic.url }}" alt="{{ profile_view.first_name }}">#}
-{#            {% endif %}#}
-{#            {{ form.as_p }}#}
-{#            <button type="submit">Save Changes</button>#}
-{#        </form>#}
-{#    {% else %}#}
-{##}
-{#        {% if profile_view.profile_pic %}#}
-{#            <img class="profile_pic" src="{{ profile_view.profile_pic.url }}" alt="{{ profile_view.first_name }}">#}
-{#        {% endif %}#}
-{#        <p><b>Username:</b> {{ profile_view.username }}</p>#}
-{#        <p><b>Ism:</b> {{ profile_view.first_name }}</p>#}
-{#        <p><b>Familiya:</b> {{ profile_view.last_name }}</p>#}
-{#        <p><b>Email:</b> {{ profile_view.email }}</p>#}
-{#        <p><b>Bio:</b> {{ profile_view.bio }}</p>#}
-{#    {% endif %}#}
-{#{% else %}#}
-{#    Anonymous user visited#}
-{#{% endif %}#}
-
 {% endblock%}
