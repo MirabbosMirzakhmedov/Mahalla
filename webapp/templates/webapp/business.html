@@ -1,0 +1,51 @@
+{% extends 'webapp/layout.html' %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+<br><h4 style="text-align: center">{{ title }}</h4><br>
+
+
+{% for category_key, category_name in categories %}
+<div class="row" style="padding: 10px">
+    <div id="accordion">
+      <div class="card">
+        <div style="cursor: pointer; text-align: center" class="card-header" id="headinbtn btn-lightg{{ forloop.counter }}" data-toggle="collapse" data-target="#collapse{{ forloop.counter }}" aria-expanded="true" aria-controls="collapse{{ forloop.counter }}">
+          <h5 class="mb-0">
+            <a style="padding: 5px">
+                {{ category_name }}
+            </a>
+          </h5>
+        </div>
+
+        <div id="collapse{{ forloop.counter }}" class="collapse" aria-labelledby="heading{{ forloop.counter }}" data-parent="#accordion">
+            <div class="card-body">
+                <div class="row">
+                    {% for business in categories_with_businesses %}
+                        {% if business.0 == category_key %}
+                            {% for b in business.1 %}
+                                <div class="col-md-3">
+                                    <div class="card" style="width: 18rem;">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ b.name }}</h5>
+                                            <p class="card-text">{{ b.description }}</p>
+                                            <p class="card-text">{{ b.phone_number }}</p>
+                                            <a target="_blank" href="{{ b.link }}" class="btn btn-primary">Manzil</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+      </div>
+    </div>
+</div>
+{% endfor %}
+
+
+
+
+{% endblock %}
