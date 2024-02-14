@@ -191,7 +191,7 @@ def business(request):
     data = {
         'categories_with_businesses': categories_with_businesses,
         'categories': categories,
-        'title': "Bizning mahallamizda",
+        'title': "Atrofimizda",
     }
 
     return render(request, 'webapp/business.html', data)
