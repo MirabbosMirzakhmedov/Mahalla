@@ -119,13 +119,15 @@ class PostDetailView(DetailView):
         return context
 
 
-class PostUpdateView(UpdateView):
+class PostUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = '/login/'
     model = Post
     template_name = 'webapp/create.html'
     form_class = PostForm
 
 
-class PostDeleteView(DeleteView):
+class PostDeleteView(LoginRequiredMixin, DeleteView):
+    login_url = '/login/'
     model = Post
     success_url = reverse_lazy('home')
     template_name = 'webapp/post_delete.html'
@@ -147,7 +149,8 @@ def add_comment(request, pk):
 from django.shortcuts import redirect
 
 
-class ProfileDetailView(DetailView):
+class ProfileDetailView(LoginRequiredMixin, DetailView):
+    login_url = '/login/'
     model = User
     template_name = 'webapp/profile.html'
     context_object_name = 'profile_view'
