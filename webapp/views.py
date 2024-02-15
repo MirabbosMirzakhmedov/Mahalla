@@ -9,7 +9,7 @@ from django.views.generic import DetailView, UpdateView, \
 
 from webapp.forms import PostForm, CommentForm, ProfileForm
 from .forms import SignUpForm
-from .models import Post, User, Comment
+from .models import Post, User, Comment, Business
 
 
 def index(request):
@@ -175,3 +175,26 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         if form.is_valid():
             form.save()
         return self.get(request, *args, **kwargs)
+
+
+from django.shortcuts import render
+from .models import Business
+
+def business(request):
+    categories = Business.CATEGORIES
+    categories_with_businesses = []
+
+    for category_key, _ in categories:
+        businesses = Business.objects.filter(category=category_key)
+        categories_with_businesses.append((category_key, businesses))
+
+    data = {
+        'categories_with_businesses': categories_with_businesses,
+        'categories': categories,
+        'title': "Atrofimizda",
+    }
+
+    return render(request, 'webapp/business.html', data)
+
+
+

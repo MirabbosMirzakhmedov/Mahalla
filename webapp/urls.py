@@ -16,6 +16,7 @@ urlpatterns = [
     path('<int:pk>/comment', views.add_comment, name='add-comment'),
     path('profile/<int:pk>/', views.ProfileDetailView.as_view(), name='profile'),
     path('about/', views.about, name='about'),
+    path('business/', views.business, name='business'),
 ]
 
 
