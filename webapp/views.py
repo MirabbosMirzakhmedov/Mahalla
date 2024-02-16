@@ -7,9 +7,10 @@ from django.views import View
 from django.views.generic import DetailView, UpdateView, \
     DeleteView
 
+from django.shortcuts import render
 from webapp.forms import PostForm, CommentForm, ProfileForm
 from .forms import SignUpForm
-from .models import Post, User, Comment, Business
+from .models import Post, User, Comment, Business, PostNeighbors
 
 
 def index(request):
@@ -125,12 +126,30 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'webapp/create.html'
     form_class = PostForm
 
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        if self.request.user.pk != self.object.user_id_id:
+            messages.success(request, 'Bu yerda sizga ruxsat berilmagan.')
+            return redirect('home')
+
+        return super().dispatch(request, *args, **kwargs)
+
 
 class PostDeleteView(LoginRequiredMixin, DeleteView):
     login_url = '/login/'
     model = Post
     success_url = reverse_lazy('home')
     template_name = 'webapp/post_delete.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        if self.request.user.pk != self.object.user_id_id:
+            messages.success(request, 'Bu yerda sizga ruxsat berilmagan.')
+            return redirect('home')
+
+        return super().dispatch(request, *args, **kwargs)
 
 
 def add_comment(request, pk):
@@ -176,10 +195,6 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
             form.save()
         return self.get(request, *args, **kwargs)
 
-
-from django.shortcuts import render
-from .models import Business
-
 def business(request):
     categories = Business.CATEGORIES
     categories_with_businesses = []
@@ -197,4 +212,14 @@ def business(request):
     return render(request, 'webapp/business.html', data)
 
 
+
+
+def neighbors(request):
+    neighbors = PostNeighbors.objects.all()
+
+    data = {
+        'title': "Qo'shnilardan yangilik",
+        'neighbors': neighbors
+    }
+    return render(request, 'webapp/neighbors.html', data)
 

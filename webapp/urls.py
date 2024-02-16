@@ -17,6 +17,7 @@ urlpatterns = [
     path('profile/<int:pk>/', views.ProfileDetailView.as_view(), name='profile'),
     path('about/', views.about, name='about'),
     path('business/', views.business, name='business'),
+    path('neighbors/', views.neighbors, name='neighbors'),
 ]
 
 

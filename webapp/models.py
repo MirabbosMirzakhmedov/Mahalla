@@ -81,3 +81,14 @@ class Business(models.Model):
 
     def __str__(self):
         return self.name
+
+class PostNeighbors(models.Model):
+    n_post_id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=255)
+    full_text = RichTextField(blank=True, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE,
+                                related_name='neighbors_posts')
+    updated_at = models.DateTimeField(auto_now=True)
+    image = models.ImageField(upload_to='posts/',
+                              default='../../media/posts/default.webp')
