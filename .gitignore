@@ -3,3 +3,7 @@ venv/
 .git/
 .idea/
 Ahilobod/__pycache__/
+*.py[cod]
+*$py.class
+db.sqlite3
+.Python
