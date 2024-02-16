@@ -1,0 +1,102 @@
+{% extends 'webapp/layout.html' %}
+{% block title %}{{ neighbor_post.title }}{% endblock %}
+
+{% block body %}
+    <div class="row mb-2">
+        <div class="col-md-8">
+            <article class="blog-post">
+                <h2 class="display-5 link-body-emphasis mb-1">{{ neighbor_post.title }}</h2>
+                <p class="blog-post-meta">{{ neighbor_post.created_at|date:"j F Y, G:i" }} | <a
+                    href="{% url 'profile' neighbor_post.user_id.user_id %}">{{ neighbor_post.user_id.first_name }} {{ neighbor_post.user_id.last_name }}</a>
+                </p>
+                <div>
+                    {% if user.user_id == neighbor_post.user_id_id %}
+                        <div class="">
+                            <a class="btn btn-sm btn-outline-secondary"
+                               href="{% url 'neighbor-post-delete' neighbor_post.n_post_id %}">Удалить</a>
+                            <a class="btn btn-sm btn-outline-secondary"
+                               href="{% url 'neighbor-post-update' neighbor_post.n_post_id %}">Редактировать</a>
+                        </div>
+                    {% endif %}
+                </div>
+                <p class="full_text">{{ neighbor_post.full_text|safe }}</p>
+                {% if post.image %}
+                    <br>
+                    <img src="{{ neighbor_post.image.url }}">
+                {% endif %}
+
+                <br><br>
+                <h2>Izohlar...</h2>
+                <hr>
+                <br>
+                {% if user.is_authenticated %}
+                    {% if neighbor_post.comments.all %}
+                        {% for comment in neighbor_post.comments.all %}
+                            <b><a
+                                href="{% url 'profile' comment.user.user_id %}">{{ comment.user.first_name }} {{ comment.user.last_name }}</a></b>
+                            | <small>{{ comment.created_at|date:"j F Y, G:i" }}</small><br>
+                            {{ comment.comment_text }}
+                            <br><br>
+
+                        {% endfor %}
+                    {% endif %}
+                    <form method="post"
+                          action="{% url 'add-comment' neighbor_post.n_post_id %}">
+                        {% csrf_token %}
+                        <hr>
+                        <div class="form-group">
+                            <p>Izoh yozayotgan profil
+                                <strong>{{ user.first_name }} {{ user.last_name }}:</strong>
+                            </p>
+                            <textarea name="comment_text" class="form-control"
+                                      rows="3"></textarea>
+                            <br>
+                            <button type="submit" class="btn btn-primary">Izoh qoldirish</button>
+                        </div>
+                    </form>
+                {% else %}
+                    <p>Izoh yozish uchun, <a href="{% url 'login' %}">profilga kiring</a>.</p>
+                    <hr>
+                    {% for comment in neighbor_post.comments.all %}
+                        <strong>
+                            {{ comment.user.first_name }} {{ comment.user.last_name }}<br>
+                            {{ comment.created_at|date:"j F Y, G:i" }}
+                        </strong>
+                        <br>
+                        {{ comment.comment_text }}
+                        <br><br>
+                        <hr>
+                    {% endfor %}
+                {% endif %}
+            </article>
+        </div>
+
+        <div class="col-md-4">
+            <div class="position-sticky" style="top: 2rem;">
+                <div class="p-4 mb-3 bg-body-tertiary rounded">
+                    <h4 class="fst-italic">Xush kelibsiz, {{ user.first_name }}!</h4>
+                    <p class="mb-0">Yurtimizda, va mahallamizda bo'layotgan so'nggi habarlarni qo'yvorib yubormang.
+                    Profil yarating va o'zingiz ham boshqalar bilan yangilik ulasha olasiz.</p>
+                </div>
+                <div>
+                    <h4 class="fst-italic">Oxirgi izohlar</h4>
+                    <ul class="list-unstyled">
+                        {% for comment in comments %}
+                        <li>
+                            <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
+                               href="{% url 'news-detail' comment.post.post_id %}">
+                                <div class="col-lg-8">
+
+                                    <h6 class="mb-0">{{ comment.comment_text }}</h6>
+                                    <small class="text-body-secondary">{{ comment.post.title }} - {{ comment.user.first_name }} {{ comment.user.last_name }}</small>
+                                </div>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

@@ -4,7 +4,11 @@
 
 {% block body%}
     <div class="features">
-        <h1>{{ post.title }}</h1>
+        {% if post %}
+            <h1>{{ post.title }}</h1>
+        {% else %}
+            <h1>{{ postneighbors.title }}</h1>
+        {% endif %}
 
         <form method="post">
             {% csrf_token %}

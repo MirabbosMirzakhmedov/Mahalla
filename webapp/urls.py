@@ -12,13 +12,16 @@ urlpatterns = [
     path('register/', views.register_user, name='register'),
     path('<int:pk>', views.PostDetailView.as_view(), name='news-detail'),
     path('<int:pk>/update', views.PostUpdateView.as_view(), name='post-update'),
+    path('<int:pk>/neighbor-post-update', views.NeighborPostUpdateView.as_view(), name='neighbor-post-update'),
     path('<int:pk>/delete', views.PostDeleteView.as_view(), name='post-delete'),
+    path('<int:pk>/neighbor-post-delete', views.NeighborPostDeleteView.as_view(), name='neighbor-post-delete'),
     path('<int:pk>/comment', views.add_comment, name='add-comment'),
     path('profile/<int:pk>/', views.ProfileDetailView.as_view(), name='profile'),
     path('about/', views.about, name='about'),
     path('business/', views.business, name='business'),
     path('notify-neighbors/', views.CreateNeighborPostView.as_view(), name='notify-neighbors'),
     path('post-neighbors/', views.neighbors, name='neighbors'),
+    path('post-neighbors/<int:pk>', views.NeighborPostDetailView.as_view(), name='neighbor-news-detail'),
 ]
 
 

@@ -147,10 +147,18 @@ class PostDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['comments'] = (Comment.objects.all().order_by('-created_at'))[
-                              :5]
+        context['comments'] = (Comment.objects.all().order_by('-created_at'))[:5]
         return context
 
+class NeighborPostDetailView(DetailView):
+    model = PostNeighbors
+    template_name = 'webapp/neighbor_news_detail.html'
+    context_object_name = 'neighbor_post'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comments'] = (Comment.objects.all().order_by('-created_at'))[:5]
+        return context
 
 class PostUpdateView(LoginRequiredMixin, UpdateView):
     login_url = '/login/'
@@ -167,10 +175,40 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
 
         return super().dispatch(request, *args, **kwargs)
 
+class NeighborPostUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = '/login/'
+    model = PostNeighbors
+    template_name = 'webapp/create.html'
+    form_class = PostForm
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        if self.request.user.pk != self.object.user_id_id:
+            messages.success(request, 'Bu yerda sizga ruxsat berilmagan.')
+            return redirect('home')
+
+        return super().dispatch(request, *args, **kwargs)
+
 
 class PostDeleteView(LoginRequiredMixin, DeleteView):
     login_url = '/login/'
     model = Post
+    success_url = reverse_lazy('home')
+    template_name = 'webapp/post_delete.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        if self.request.user.pk != self.object.user_id_id:
+            messages.success(request, 'Bu yerda sizga ruxsat berilmagan.')
+            return redirect('home')
+
+        return super().dispatch(request, *args, **kwargs)
+
+class NeighborPostDeleteView(LoginRequiredMixin, DeleteView):
+    login_url = '/login/'
+    model = PostNeighbors
     success_url = reverse_lazy('home')
     template_name = 'webapp/post_delete.html'
 
@@ -247,7 +285,7 @@ def business(request):
 
 
 def neighbors(request):
-    neighbors = PostNeighbors.objects.all()
+    neighbors = PostNeighbors.objects.all().order_by('-created_at')
 
     data = {
         'title': "Qo'shnilardan yangilik",

@@ -2,7 +2,14 @@
 {% block title%}{{ title }}{% endblock%}
 
 {% block body%}
+
     {% for neighbor in neighbors %}
-        {{ neighbor.title }}
+        <div class="card">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <a href="{% url 'neighbor-news-detail' neighbor.n_post_id %}">{{ neighbor.title }}</a>
+            </li>
+          </ul>
+        </div>
     {% endfor %}
 {% endblock %}
