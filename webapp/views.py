@@ -97,12 +97,13 @@ def register_user(request):
             password = form.cleaned_data.get('password1')
             # LOGIN
             user = authenticate(username=username, password=password)
-            login(request, user)
-            messages.success(request, 'Siz roʻyxatdan oʻtdingiz')
-            return redirect('home')
+            messages.success(request, 'Siz roʻyxatdan oʻtdingiz, iltimos tizimga kiring')
+            return redirect('login')
         else:
-            messages.success(request,
-                             'Muammo yuz berdi, keyinroq qayta urinib ko‘ring.')
+            if form.errors['username'] == ['A user with that username already exists.']:
+                messages.error(request, 'Bu foydalanuvchi nomi mavjud. Iltimos, boshqa nom tanlang.')
+            else:
+                messages.error(request, 'Muammo yuz berdi, keyinroq qayta urinib ko‘ring.')
             return redirect('register')
     else:
         return render(request, 'webapp/register.html', {'form': form})
