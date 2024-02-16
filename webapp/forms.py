@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post, Comment, User
+from .models import Post, Comment, User, PostNeighbors
 # from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from ckeditor.fields import RichTextField
@@ -7,6 +7,23 @@ from ckeditor.fields import RichTextField
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
+        fields = ['title', 'full_text', 'image']
+        labels = {'title': 'Post sarlavhasi', 'full_text': '', 'image': 'Rasm'}
+
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Post sarlavhasi'
+            }),
+            'full_text': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Toʻliq matnni joylash'
+            })
+        }
+
+class PostNeighborsForm(forms.ModelForm):
+    class Meta:
+        model = PostNeighbors
         fields = ['title', 'full_text', 'image']
         labels = {'title': 'Post sarlavhasi', 'full_text': '', 'image': 'Rasm'}
 

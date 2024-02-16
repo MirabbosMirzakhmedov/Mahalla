@@ -8,7 +8,7 @@ from django.views.generic import DetailView, UpdateView, \
     DeleteView
 
 from django.shortcuts import render
-from webapp.forms import PostForm, CommentForm, ProfileForm
+from webapp.forms import PostForm, CommentForm, ProfileForm, PostNeighborsForm
 from .forms import SignUpForm
 from .models import Post, User, Comment, Business, PostNeighbors
 
@@ -47,9 +47,40 @@ class CreatePostView(LoginRequiredMixin, View):
         data = {'form': form, 'error': error}
         return render(request, 'webapp/create.html', data)
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            messages.success(request, 'Bu yerda sizga ruxsat berilmagan.')
+            return redirect('home')
+
+        return super().dispatch(request, *args, **kwargs)
+
     def post(self, request):
         error = ''
         form = PostForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user_id = request.user
+            post.save()
+            return redirect('home')
+        else:
+            error = "Maqolani to'liq to'ldiring"
+
+        data = {'form': form, 'error': error}
+        return render(request, 'webapp/create.html', data)
+
+class CreateNeighborPostView(LoginRequiredMixin, View):
+    login_url = '/login/'
+
+    def get(self, request):
+        error = ''
+        form = PostNeighborsForm()
+        data = {'form': form, 'error': error}
+        return render(request, 'webapp/create.html', data)
+
+    def post(self, request):
+        error = ''
+        form = PostNeighborsForm(request.POST, request.FILES)
 
         if form.is_valid():
             post = form.save(commit=False)

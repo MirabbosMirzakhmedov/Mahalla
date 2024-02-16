@@ -17,7 +17,8 @@ urlpatterns = [
     path('profile/<int:pk>/', views.ProfileDetailView.as_view(), name='profile'),
     path('about/', views.about, name='about'),
     path('business/', views.business, name='business'),
-    path('neighbors/', views.neighbors, name='neighbors'),
+    path('notify-neighbors/', views.CreateNeighborPostView.as_view(), name='notify-neighbors'),
+    path('post-neighbors/', views.neighbors, name='neighbors'),
 ]
 
 
