@@ -1,0 +1,18 @@
+{% extends 'webapp/layout.html' %}
+{% block title%}{{ title }}{% endblock%}
+
+{% block body%}
+<br><br>
+<form class="form-signin w-50 m-auto" method="post" enctype="multipart/form-data">
+<h4 style="text-align: center">{{ title }}</h4>
+    {% csrf_token %}
+    {{ form.media }}
+    {{ form.as_p }}
+
+    <div style="text-align: right">
+        <input type="submit" value="{{ title }}" class="btn btn-primary">
+    </div>
+</form>
+<br><br>
+
+{% endblock %}

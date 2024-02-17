@@ -20,7 +20,7 @@
                     {% endif %}
                 </div>
                 <p class="full_text">{{ neighbor_post.full_text|safe }}</p>
-                {% if post.image %}
+                {% if neighbor_post.image %}
                     <br>
                     <img src="{{ neighbor_post.image.url }}">
                 {% endif %}

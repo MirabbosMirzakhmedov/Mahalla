@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post, Comment, User, PostNeighbors, NeighborComment
+from .models import Post, Comment, User, PostNeighbors, NeighborComment, Image
 # from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from ckeditor.fields import RichTextField
@@ -119,3 +119,8 @@ class ProfileForm(forms.ModelForm):
                 'class': 'form-control'
             })
         }
+
+class ImageForm(forms.ModelForm):
+    class Meta:
+        model = Image
+        fields = ['image']

@@ -9,10 +9,10 @@ from django.views.generic import DetailView, UpdateView, \
 from django.shortcuts import redirect
 from django.shortcuts import render
 from webapp.forms import PostForm, CommentForm, ProfileForm, PostNeighborsForm, \
-    NeighborCommentForm
+    NeighborCommentForm, ImageForm
 from .forms import SignUpForm
 from .models import Post, User, Comment, Business, PostNeighbors, \
-    NeighborComment
+    NeighborComment, Image
 
 
 def index(request):
@@ -32,13 +32,11 @@ def index(request):
     }
     return render(request, 'webapp/index.html', data)
 
-
 def about(request):
     data = {
         'title': 'About us'
     }
     return render(request, 'webapp/about.html', data)
-
 
 class CreatePostView(LoginRequiredMixin, View):
     login_url = '/login/'
@@ -95,7 +93,6 @@ class CreateNeighborPostView(LoginRequiredMixin, View):
         data = {'form': form, 'error': error}
         return render(request, 'webapp/create.html', data)
 
-
 def login_user(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -113,12 +110,10 @@ def login_user(request):
     else:
         return render(request, 'webapp/login.html')
 
-
 def logout_user(request):
     logout(request)
     messages.success(request, ('Siz tizimdan chiqdingiz.'))
     return redirect('home')
-
 
 def register_user(request):
     form = SignUpForm()
@@ -140,7 +135,6 @@ def register_user(request):
             return redirect('register')
     else:
         return render(request, 'webapp/register.html', {'form': form})
-
 
 class PostDetailView(DetailView):
     model = Post
@@ -192,7 +186,6 @@ class NeighborPostUpdateView(LoginRequiredMixin, UpdateView):
 
         return super().dispatch(request, *args, **kwargs)
 
-
 class PostDeleteView(LoginRequiredMixin, DeleteView):
     login_url = '/login/'
     model = Post
@@ -223,7 +216,6 @@ class NeighborPostDeleteView(LoginRequiredMixin, DeleteView):
 
         return super().dispatch(request, *args, **kwargs)
 
-
 def add_comment(request, pk):
     post = get_object_or_404(Post, pk=pk)
 
@@ -247,10 +239,6 @@ def neighbors_add_comment(request, pk):
             comment.post = post
             comment.save()
     return redirect('neighbor-news-detail', pk=pk)
-
-
-
-
 
 class ProfileDetailView(LoginRequiredMixin, DetailView):
     login_url = '/login/'
@@ -298,9 +286,6 @@ def business(request):
 
     return render(request, 'webapp/business.html', data)
 
-
-
-
 def neighbors(request):
     neighbors = PostNeighbors.objects.all().order_by('-created_at')
 
@@ -309,4 +294,52 @@ def neighbors(request):
         'neighbors': neighbors
     }
     return render(request, 'webapp/neighbors.html', data)
+
+def gallery(request):
+    gallery = Image.objects.all().order_by('-created_date')
+
+    data = {
+        'gallery': gallery,
+        'title': "Galereya",
+    }
+    return render(request, 'webapp/gallery.html', data)
+
+class ImageDetailView(DetailView):
+    model = Image
+    template_name = 'webapp/image_detail_view.html'
+    context_object_name = 'image_view'
+
+class CreateImageView(LoginRequiredMixin, View):
+    login_url = '/login/'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_staff:
+            messages.success(request, 'Bu yerda sizga ruxsat berilmagan.')
+            return redirect('gallery')
+
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request):
+        error = ''
+        title = "Rasm qo'shish"
+        form = ImageForm()
+        data = {'form': form, 'error': error, 'title': title}
+        return render(request, 'webapp/add_image.html', data)
+
+    def post(self, request):
+        error = ''
+        title = "Rasm qo'shish"
+        form = ImageForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user_id = request.user
+            post.save()
+            return redirect('gallery')
+        else:
+            error = "Xatolik ketti, rasm formati notog'ri"
+
+        data = {'form': form, 'error': error, 'title': title}
+        return render(request, 'webapp/add_image.html', data)
+
 

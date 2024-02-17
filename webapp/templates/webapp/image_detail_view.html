@@ -1,0 +1,9 @@
+{% extends 'webapp/layout.html' %}
+{% block title%}{{ title }}{% endblock%}
+
+{% block body%}
+    <a style="float: right; margin-left: 50px" href="{% url 'gallery' %}" class="btn btn-sm btn-outline-secondary">Ortga qaytish</a>
+    <div class="image-container">
+        <img src="{{ image_view.image.url }}" class="img-fluid" alt="Responsive image">
+    </div>
+{% endblock %}

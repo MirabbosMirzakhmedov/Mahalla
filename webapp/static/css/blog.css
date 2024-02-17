@@ -62,8 +62,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .post-button:hover {
-  background-color: #6c757d; /* Darker blue color */
-  color: #fff
+  background-color: #555555  ; /* Darker blue color */
+  color: #fff;
+    border: 1px solid #555555;
 }
 
 .row {
@@ -90,4 +91,83 @@ h1, h2, h3, h4, h5, h6 {
 
 textarea {
     width: 100%;
+}
+
+.bg-body-secondary {
+    background-color: #3D9970 !important;
+    color: #ffffff !important;
+}
+
+.bg-body-secondary a {
+    color: #ffffff !important;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #555555 !important;
+    border: solid 1px #555555 !important;
+}
+
+.tweets {
+
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+    text-decoration: none;
+}
+
+.tweets a {
+    font-size: medium;
+    text-decoration: none;
+}
+
+.tweets span {
+    color: #888;
+    font-size: x-small;
+}
+
+.tweets img {
+    width: 70px;
+    height: 70px;
+}
+
+.tweets .row {
+    margin-bottom: 0 !important;
+}
+
+.tweets .row img {
+    border: none !important;
+    padding: 0 !important;
+}
+
+.tweets .col-md-1 {
+    width: 70px;
+    height: 70px;
+    padding: 0 !important;
+}
+
+.align-items-center {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.gallery {
+    width: 400px;
+    height: 220px;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.gallery:hover {
+  transform: scale(1.1);
+}
+
+.img-fluid {
+    max-width: 100%;
+    height: 100vh!important; /* Set height to 100% of the viewport height */
+}
+
+.image-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    height: 100vh; /* Set height to 100% of the viewport height */
 }

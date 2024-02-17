@@ -3,13 +3,27 @@
 
 {% block body%}
 
-    {% for neighbor in neighbors %}
-        <div class="card">
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-                <a href="{% url 'neighbor-news-detail' neighbor.n_post_id %}">{{ neighbor.title }}</a>
-            </li>
-          </ul>
+{% for neighbor in neighbors %}
+    <div class="card tweets">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-md-1">
+                    <img src="{{ neighbor.image.url }}" class="img-thumbnail img-center">
+                </div>
+                <div class="col-md-11">
+                    <h5 class="card-title">
+                        <a href="{% url 'neighbor-news-detail' neighbor.n_post_id %}">{{ neighbor.title }}</a> <span>({{ neighbor.user_id.first_name }} {{ neighbor.user_id.last_name }})</span>
+                    </h5>
+                    <p class="card-text">
+                        <span>Oxirgi marta yangilangan {{ neighbor.updated_at|date:"j F Y, G:i" }}</span><br>
+                        <strong><span>{{ neighbor.neighbor_comments.all|length }} izoh qoldirilgan</span></strong>
+                    </p>
+                </div>
+            </div>
         </div>
-    {% endfor %}
+    </div>
+{% endfor %}
+
+
+
 {% endblock %}

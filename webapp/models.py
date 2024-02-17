@@ -24,7 +24,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
     updated_at = models.DateTimeField(auto_now=True)
-    image = models.ImageField(upload_to='posts/', default='../../media/posts/default.webp')
+    image = models.ImageField(upload_to='posts/', default='posts/default.webp')
 
     def get_absolute_url(self):
         return reverse('news-detail', args=[str(self.post_id)])
@@ -41,7 +41,9 @@ class PostNeighbors(models.Model):
                                 related_name='neighbors_posts')
     updated_at = models.DateTimeField(auto_now=True)
     image = models.ImageField(upload_to='posts/',
-                              default='../../media/posts/default.webp')
+                              default='posts/default.webp')
+    def get_absolute_url(self):
+        return reverse('neighbor-news-detail', args=[str(self.n_post_id)])
 
     def __str__(self):
         return self.title
@@ -105,4 +107,12 @@ class Business(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Image(models.Model):
+    image = models.ImageField(upload_to='images/')
+    created_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return str(self.image)
 

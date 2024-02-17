@@ -25,7 +25,7 @@
                             <a href="{% url 'profile' post.user_id_id %}">{{ post.user_id.first_name }} {{ post.user_id.last_name }}</a></small>
                         <p class="card-text mb-auto">{{ post.full_text|truncatewords:30|striptags|safe }}</p>
 
-                        <button class="post-button">O'qishni davom ettiring
+                        <button class="post-button">Batafsil...
                             <a href="{% url 'news-detail' post.post_id %}"
                                class="icon-link gap-1 icon-link-hover stretched-link">
                             </a>
