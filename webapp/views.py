@@ -11,7 +11,8 @@ from django.shortcuts import render
 from webapp.forms import PostForm, CommentForm, ProfileForm, PostNeighborsForm, \
     NeighborCommentForm
 from .forms import SignUpForm
-from .models import Post, User, Comment, Business, PostNeighbors
+from .models import Post, User, Comment, Business, PostNeighbors, \
+    NeighborComment
 
 
 def index(request):
@@ -158,7 +159,7 @@ class NeighborPostDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['comments'] = (Comment.objects.all().order_by('-created_at'))[:5]
+        context['comments'] = (NeighborComment.objects.all().order_by('-created_at'))[:5]
         return context
 
 class PostUpdateView(LoginRequiredMixin, UpdateView):
