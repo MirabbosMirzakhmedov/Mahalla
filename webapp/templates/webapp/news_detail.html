@@ -19,11 +19,12 @@
                         </div>
                     {% endif %}
                 </div>
-                <p class="full_text">{{ post.full_text|safe }}</p>
+
                 {% if post.image %}
                     <br>
                     <img src="{{ post.image.url }}">
                 {% endif %}
+                <p class="full_text">{{ post.full_text|safe }}</p>
 
                 <br><br>
                 <h2>Izohlar...</h2>
@@ -37,7 +38,6 @@
                             | <small>{{ comment.created_at|date:"j F Y, G:i" }}</small><br>
                             {{ comment.comment_text }}
                             <br><br>
-
                         {% endfor %}
                     {% endif %}
                     <form method="post"

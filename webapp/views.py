@@ -86,7 +86,7 @@ class CreateNeighborPostView(LoginRequiredMixin, View):
             post = form.save(commit=False)
             post.user_id = request.user
             post.save()
-            return redirect('home')
+            return redirect('neighbors')
         else:
             error = "Maqolani to'liq to'ldiring"
 
@@ -100,7 +100,7 @@ def login_user(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            messages.success(request, 'Siz veb-saytga kirdingiz')
+            messages.success(request, 'Siz web-saytga kirdingiz')
             return redirect('home')
         else:
             messages.success(request,

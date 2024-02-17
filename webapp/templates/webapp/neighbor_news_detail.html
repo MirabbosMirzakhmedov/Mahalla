@@ -37,7 +37,6 @@
                             | <small>{{ comment.created_at|date:"j F Y, G:i" }}</small><br>
                             {{ comment.comment_text }}
                             <br><br>
-
                         {% endfor %}
                     {% endif %}
                     <form method="post"
@@ -56,11 +55,12 @@
                 {% else %}
                     <p>Izoh yozish uchun, <a href="{% url 'login' %}">profilga kiring</a>.</p>
                     <hr>
-                    {% for comment in neighbor_post.comments.all %}
+                    {% for comment in neighbor_post.neighbor_comments.all %}
                         <strong>
                             {{ comment.user.first_name }} {{ comment.user.last_name }}<br>
                             {{ comment.created_at|date:"j F Y, G:i" }}
                         </strong>
+
                         <br>
                         {{ comment.comment_text }}
                         <br><br>
