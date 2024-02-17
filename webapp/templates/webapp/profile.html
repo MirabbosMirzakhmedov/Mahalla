@@ -41,23 +41,60 @@
                     </div>
                 </div>
                 <hr>
-                <div class="row">
-                    <div class="col-md-6">
-                        <h4>Yozgan yangiliklari:</h4>
-                        {% for post in profile_view.posts.all %}
-                            ─ <a href="{% url 'news-detail' post.post_id %}">{{ post.title|truncatewords:4|striptags|safe }}</a><br>
-                        {% endfor %}
-                    </div>
-
-                    <div class="col-md-6">
-                        <h4>Yozgan izohlari:</h4>
-                            {% for comment in comments %}
-                                <div>
-                                    ─ <a href="{% url 'news-detail' comment.post.post_id %}">{{ comment.comment_text|truncatewords:4|striptags|safe }}</a>
-                                </div>
+                {% if profile_view.is_staff == True %}
+                    {# Formal posts #}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4>Rasmiy yangiliklari:</h4>
+                            {% for post in profile_view.posts.all %}
+                                ─ <a href="{% url 'news-detail' post.post_id %}">{{ post.title|truncatewords:4|striptags|safe }}</a><br>
                             {% endfor %}
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Rasmiy izohlari:</h4>
+                                {% for comment in comments %}
+                                    <div>
+                                        ─ <a href="{% url 'news-detail' comment.post.post_id %}">{{ comment.comment_text|truncatewords:4|striptags|safe }}</a>
+                                    </div>
+                                {% endfor %}
+                        </div>
                     </div>
-                </div>
+                    {# Not formal posts #}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4>Suhbatlari:</h4>
+                            {% for post in profile_view.neighbors_posts.all %}
+                                ─ <a href="{% url 'neighbor-news-detail' post.n_post_id %}">{{ post.title|truncatewords:4|striptags|safe }}</a><br>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Suhbat izohlari:</h4>
+                                {% for comment in neighbor_comments %}
+                                    <div>
+                                        ─ <a href="{% url 'neighbor-news-detail' comment.post.n_post_id %}">{{ comment.comment_text|truncatewords:4|striptags|safe }}</a>
+                                    </div>
+                                {% endfor %}
+                        </div>
+                    </div>
+                {% else %}
+                    {# Not formal posts #}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4>Suhbatlari:</h4>
+                            {% for post in profile_view.neighbors_posts.all %}
+                                ─ <a href="{% url 'neighbor-news-detail' post.n_post_id %}">{{ post.title|truncatewords:4|striptags|safe }}</a><br>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Suhbat izohlari:</h4>
+                                {% for comment in neighbor_comments %}
+                                    <div>
+                                        ─ <a href="{% url 'neighbor-news-detail' comment.post.n_post_id %}">{{ comment.comment_text|truncatewords:4|striptags|safe }}</a>
+                                    </div>
+                                {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
             </main>
         </div>
     {% endif %}

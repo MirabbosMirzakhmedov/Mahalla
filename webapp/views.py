@@ -266,8 +266,11 @@ class ProfileDetailView(LoginRequiredMixin, DetailView):
         context = super(ProfileDetailView, self).get_context_data(**kwargs)
         profile_view = self.get_object()
         comments = Comment.objects.filter(user=profile_view)
+        neighbor_comments = NeighborComment.objects.filter(user=profile_view)
+
         context['profile_view'] = profile_view
         context['comments'] = comments
+        context['neighbor_comments'] = neighbor_comments
         if self.request.user == profile_view:
             context['form'] = ProfileForm(instance=profile_view)
         return context
