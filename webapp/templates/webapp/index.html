@@ -15,22 +15,14 @@
         {# Each card #}
         <div class="col-md-8">
             {% for post in other_posts  %}
-                <div
-                    class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                     <div class="col p-4 d-flex flex-column position-static">
                         <h4 class="mb-0">{{ post.title|truncatewords:5|striptags|safe }}</h4>
-                        <small
-                            class="mb-1 text-body-secondary">{{ post.created_at|date:"j F Y, G:i" }}
-                            |
-                            <a href="{% url 'profile' post.user_id_id %}">{{ post.user_id.first_name }} {{ post.user_id.last_name }}</a></small>
-                        <p class="card-text mb-auto">{{ post.full_text|truncatewords:30|striptags|safe }}</p>
+                        <small class="mb-1 text-body-secondary">{{ post.created_at|date:"j F Y, G:i" }} | <a href="{% url 'profile' post.user_id_id %}">{{ post.user_id.first_name }} {{ post.user_id.last_name }}</a></small>
+                        <p class="card-text mb-auto">{{ post.full_text|truncatewords:50|striptags|safe }} <a style="text-decoration: none" href="{% url 'news-detail' post.post_id %}" class="icon-link gap-1 icon-link-hover stretched-link">Batafsil...</a></p>
 
-                        <button class="post-button">Batafsil...
-                            <a href="{% url 'news-detail' post.post_id %}"
-                               class="icon-link gap-1 icon-link-hover stretched-link">
-                            </a>
-                        </button>
                     </div>
+
                     <div class="col-auto d-none d-lg-block">
                         {% if post.image %}
                             <div class="image-container" style="width: 200px; height: 250px; overflow: hidden;">
