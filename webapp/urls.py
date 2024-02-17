@@ -16,6 +16,7 @@ urlpatterns = [
     path('<int:pk>/delete', views.PostDeleteView.as_view(), name='post-delete'),
     path('<int:pk>/neighbor-post-delete', views.NeighborPostDeleteView.as_view(), name='neighbor-post-delete'),
     path('<int:pk>/comment', views.add_comment, name='add-comment'),
+    path('<int:pk>/neighbor-comment', views.neighbors_add_comment, name='neighbors-add-comment'),
     path('profile/<int:pk>/', views.ProfileDetailView.as_view(), name='profile'),
     path('about/', views.about, name='about'),
     path('business/', views.business, name='business'),

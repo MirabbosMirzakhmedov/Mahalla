@@ -30,8 +30,8 @@
                 <hr>
                 <br>
                 {% if user.is_authenticated %}
-                    {% if neighbor_post.comments.all %}
-                        {% for comment in neighbor_post.comments.all %}
+                    {% if neighbor_post.neighbor_comments.all %}
+                        {% for comment in neighbor_post.neighbor_comments.all %}
                             <b><a
                                 href="{% url 'profile' comment.user.user_id %}">{{ comment.user.first_name }} {{ comment.user.last_name }}</a></b>
                             | <small>{{ comment.created_at|date:"j F Y, G:i" }}</small><br>
@@ -41,15 +41,14 @@
                         {% endfor %}
                     {% endif %}
                     <form method="post"
-                          action="{% url 'add-comment' neighbor_post.n_post_id %}">
+                          action="{% url 'neighbors-add-comment' neighbor_post.n_post_id %}">
                         {% csrf_token %}
                         <hr>
                         <div class="form-group">
                             <p>Izoh yozayotgan profil
                                 <strong>{{ user.first_name }} {{ user.last_name }}:</strong>
                             </p>
-                            <textarea name="comment_text" class="form-control"
-                                      rows="3"></textarea>
+                            <textarea name="comment_text" class="form-control" rows="3"></textarea>
                             <br>
                             <button type="submit" class="btn btn-primary">Izoh qoldirish</button>
                         </div>

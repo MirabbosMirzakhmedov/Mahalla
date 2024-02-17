@@ -6,9 +6,10 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import DetailView, UpdateView, \
     DeleteView
-
+from django.shortcuts import redirect
 from django.shortcuts import render
-from webapp.forms import PostForm, CommentForm, ProfileForm, PostNeighborsForm
+from webapp.forms import PostForm, CommentForm, ProfileForm, PostNeighborsForm, \
+    NeighborCommentForm
 from .forms import SignUpForm
 from .models import Post, User, Comment, Business, PostNeighbors
 
@@ -234,8 +235,20 @@ def add_comment(request, pk):
             comment.save()
     return redirect('news-detail', pk=pk)
 
+def neighbors_add_comment(request, pk):
+    post = get_object_or_404(PostNeighbors, pk=pk)
 
-from django.shortcuts import redirect
+    if request.method == 'POST':
+        form = NeighborCommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.post = post
+            comment.save()
+    return redirect('neighbor-news-detail', pk=pk)
+
+
+
 
 
 class ProfileDetailView(LoginRequiredMixin, DetailView):

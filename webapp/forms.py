@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post, Comment, User, PostNeighbors
+from .models import Post, Comment, User, PostNeighbors, NeighborComment
 # from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from ckeditor.fields import RichTextField
@@ -49,6 +49,19 @@ class CommentForm(forms.ModelForm):
                 'placeholder': 'Fikr yozish'
             })
         }
+
+class NeighborCommentForm(forms.ModelForm):
+    class Meta:
+        model = NeighborComment
+        fields = ['comment_text']
+
+        widgets = {
+            'comment_text': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Fikr yozish'
+            })
+        }
+
 
 class SignUpForm(UserCreationForm):
     first_name = forms.CharField(label="", max_length=100, widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Ism'}))
