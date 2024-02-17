@@ -2,7 +2,7 @@
 {% block title%}{{ title }}{% endblock%}
 
 {% block body%}
-    <a style="float: right; margin-left: 50px" href="{% url 'gallery' %}" class="btn btn-sm btn-outline-secondary">Ortga qaytish</a>
+    <a style="float: right; margin-left: 50px" href="{% url 'gallery' %}" class="btn btn-sm btn-outline-secondary">Ortga qaytish</a><br><hr>
     <div class="image-container">
         <img src="{{ image_view.image.url }}" class="img-fluid" alt="Responsive image">
     </div>
