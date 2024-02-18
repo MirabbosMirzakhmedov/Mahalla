@@ -1,3 +1,5 @@
+import typing
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -343,3 +345,8 @@ class CreateImageView(LoginRequiredMixin, View):
         return render(request, 'webapp/add_image.html', data)
 
 
+def information(request):
+    data: typing.Dict = {
+        'title': "To'lov xizmatlari"
+    }
+    return render(request, 'webapp/information.html', data)

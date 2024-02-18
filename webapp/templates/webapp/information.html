@@ -1,0 +1,39 @@
+{% extends 'webapp/layout.html' %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+
+
+<table class="table table-hover">
+<br><h4 style="text-align: center">{{ title }}</h4><br>
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Xizmatlar</th>
+      <th scope="col">Manzil</th>
+      <th scope="col">1 oylik to'lov</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Issiq suv</td>
+      <td><a href="https://yandex.uz/maps/-/CDBwBOzL">Manzil</a></td>
+      <td>54.000 so'm</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Sovuq suv</td>
+      <td><a href="https://yandex.uz/maps/-/CDBwBOzL">Manzil</a></td>
+      <td>12.000 so'm</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>Elektr energiyasi</td>
+      <td><a href="https://yandex.uz/maps/-/CDBwBOzL">Manzil</a></td>
+      <td>12.000 so'm</td>
+    </tr>
+  </tbody>
+</table>
+
+{% endblock %}

@@ -25,7 +25,8 @@ urlpatterns = [
     path('post-neighbors/<int:pk>', views.NeighborPostDetailView.as_view(), name='neighbor-news-detail'),
     path('gallery/', views.gallery, name='gallery'),
     path('gallery/<int:pk>', views.ImageDetailView.as_view(), name='image_detail_view'),
-    path('image/', views.CreateImageView.as_view(), name='add_image')
+    path('image/', views.CreateImageView.as_view(), name='add_image'),
+    path('information/', views.information, name='information')
 ]
 
 
