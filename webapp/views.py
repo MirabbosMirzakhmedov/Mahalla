@@ -36,7 +36,7 @@ def index(request):
 
 def about(request):
     data = {
-        'title': 'About us'
+        'title': 'Ahilobod Mahallasi'
     }
     return render(request, 'webapp/about.html', data)
 
