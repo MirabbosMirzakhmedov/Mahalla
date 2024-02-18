@@ -72,11 +72,19 @@
 
         <div class="col-md-4">
             <div class="position-sticky" style="top: 2rem;">
-                <div class="p-4 mb-3 bg-body-tertiary rounded">
-                    <h4 class="fst-italic">Xush kelibsiz, {{ user.first_name }}!</h4>
-                    <p class="mb-0">Yurtimizda, va mahallamizda bo'layotgan so'nggi habarlarni qo'yvorib yubormang.
-                    Profil yarating va o'zingiz ham boshqalar bilan yangilik ulasha olasiz.</p>
-                </div>
+                {% if user.is_authenticated %}
+                    <div class="p-4 mb-3 bg-body-tertiary rounded">
+                        <h4 class="fst-italic">Xush kelibsiz, {{ user.first_name }}!</h4>
+                        <p class="mb-0">Yurtimizda, va mahallamizda bo'layotgan so'nggi habarlarni qo'yvorib yubormang.
+                        O'qing, izohlar yozing va biz haqimizda boshqalarga ayting.</p>
+                    </div>
+                {% else %}
+                    <div class="p-4 mb-3 bg-body-tertiary rounded">
+                        <h4 class="fst-italic">Salom aziz mehmon!</h4>
+                        <p class="mb-0">Yurtimizda, va mahallamizda bo'layotgan so'nggi habarlarni qo'yvorib yubormang.
+                        Profil yarating va o'zingiz ham boshqalar bilan yangilik ulasha olasiz.</p>
+                    </div>
+                {% endif %}
                 <div>
                     <h4 class="fst-italic">Oxirgi qo'shnilar izohlari:</h4>
                     <ul class="list-unstyled">

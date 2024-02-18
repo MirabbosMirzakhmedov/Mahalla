@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, User, Comment, Business, PostNeighbors, Image
+from .models import (Post, User, Comment, Business, PostNeighbors, Image)
 
 class PostAdmin(admin.ModelAdmin):
     readonly_fields = ('post_id',)

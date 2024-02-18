@@ -1,4 +1,5 @@
 import typing
+from django.utils import timezone
 
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -153,9 +154,11 @@ class NeighborPostDetailView(DetailView):
     template_name = 'webapp/neighbor_news_detail.html'
     context_object_name = 'neighbor_post'
 
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['comments'] = (NeighborComment.objects.all().order_by('-created_at'))[:5]
+        context['comments'] = NeighborComment.objects.all().order_by('-created_at')[:5]
+
         return context
 
 class PostUpdateView(LoginRequiredMixin, UpdateView):
@@ -290,7 +293,6 @@ def business(request):
 
 def neighbors(request):
     neighbors = PostNeighbors.objects.all().order_by('-created_at')
-
     data = {
         'title': "Qo'shnilardan yangilik",
         'neighbors': neighbors
